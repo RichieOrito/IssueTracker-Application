@@ -60,7 +60,8 @@ class IssueAdd extends React.Component {
 
 const issues = [
     {
-        id: 1, status: 'Open', 
+        id: 1,
+        status: 'Open', 
         owner: 'Richie',
         created: new Date('2023-01-31'), 
         effort: 5, 
@@ -68,7 +69,8 @@ const issues = [
         title: 'Error in console when clicking Add', 
     },
     {
-        id: 2, status: 'Assigned', 
+        id: 2,
+        status: 'Assigned', 
         owner: 'Val',
         created: new Date('2023-05-20'), 
         effort: 28, 
@@ -79,13 +81,38 @@ const issues = [
 
 // parent component
 class IssueList extends React.Component {
+    constructor() {
+        super();
+        this.state = { issues: issues };
+
+    setTimeout(this.createTestIssue.bind(this), 2000);
+    }
+
+    createIssue(newIssue) {
+        const newIssues = this.state.issues.slice();
+        newIssue.id = this.state.issues.length + 1;
+        newIssues.push(newIssue);
+        this.setState({ issues: newIssues });
+    }
+
+    createTestIssue() {
+        this.createIssue({
+        id: 3,
+        status: 'New',
+        owner: 'Pieta',
+        created: new Date('2023-07-14'),
+        effort: 10, 
+        completionDate: new Date('2023-08-10'),
+        title: 'Completion date should be optional',
+        });
+    }
     render() {
         return (
             <div>
                 <h1>Issue Tracker</h1>
                 <IssueFilter />
                 <hr />
-                <IssueTable issues={issues} />
+                <IssueTable issues={this.state.issues} />
                 <hr />
                 <IssueAdd />
             </div>
